@@ -8,6 +8,9 @@
     <!-- Fontshare: Modernes, klares Design -->
     <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@700,900&f[]=space-grotesk@400,500,700&f[]=satoshi@400,500,700&display=swap" />
 
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode.js/1.5.3/qrcode.min.js"></script>
+
     <style>
       /* ===========================================
            CSS CUSTOM PROPERTIES (THEME)
@@ -283,8 +286,42 @@
       }
 
       /* ===========================================
-           NAVIGATION DOTS
+           QR CODE STYLING
            =========================================== */
+      .qr-container {
+        margin-top: var(--content-gap);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: var(--element-gap);
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid var(--card-border);
+        border-radius: 16px;
+        backdrop-filter: blur(10px);
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #qr-code {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #qr-code canvas {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .qr-label {
+        font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+        color: var(--text-secondary);
+        text-align: center;
+        margin-top: var(--element-gap);
+      }
+
+      /* ===========================================
       .nav-dots {
         position: fixed;
         bottom: clamp(1rem, 3vw, 2rem);
@@ -446,13 +483,45 @@
         <p class="tagline reveal" style="margin-top: var(--content-gap); font-size: var(--subtitle-size); max-width: 900px;">
           Join thousands of organizations using Copilot Studio to streamline operations, reduce costs, and accelerate innovation.
         </p>
-        <p class="reveal" style="margin-top: var(--content-gap); color: var(--accent-primary); font-family: var(--font-display); font-size: clamp(1.2rem, 2vw, 1.5rem); font-weight: 700;">
-          🚀 Start Building Today
-        </p>
+
+        <!-- QR Code Section -->
+        <div class="reveal">
+          <p style="margin-top: var(--content-gap); color: var(--accent-primary); font-family: var(--font-display); font-size: clamp(1.2rem, 2vw, 1.5rem); font-weight: 700;">
+            🚀 View the Presentation Online
+          </p>
+          <div class="qr-container">
+            <div id="qr-code"></div>
+          </div>
+          <p class="qr-label">Scan to open in your browser</p>
+        </div>
       </div>
     </section>
 
     <script>
+      // ===========================================
+      // QR Code Generation
+      // ===========================================
+      function generateQRCode() {
+        const githubPagesUrl = 'https://Mikeyusic.github.io/Copilot-Studio/presentation.html';
+        const qrContainer = document.getElementById('qr-code');
+        
+        // Clear previous QR if exists
+        qrContainer.innerHTML = '';
+        
+        // Generate QR code
+        new QRCode(qrContainer, {
+          text: githubPagesUrl,
+          width: 200,
+          height: 200,
+          colorDark: '#00d9ff',
+          colorLight: '#0a0f1c',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+
+      // Generate QR code when page loads
+      document.addEventListener('DOMContentLoaded', generateQRCode);
+
       /* ===========================================
            SLIDE PRESENTATION CONTROLLER
            =========================================== */
